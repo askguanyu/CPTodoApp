@@ -138,16 +138,15 @@ namespace CPTodoApp
 
         private void HandleClipboard()
         {
-            string output = ClipboardHelper.GetCleanedClipboardText();
-            textBoxLog.Log("Clipboard raw content:" + Environment.NewLine + output);
+            string text = ClipboardHelper.GetCleanedClipboardText();
+            textBoxLog.Log($"Clipboard raw content:{Environment.NewLine}{text}");
 
-            if (string.IsNullOrWhiteSpace(output))
+            if (!string.IsNullOrWhiteSpace(text))
             {
-                return;
+                text = $"[{DateTimeOffset.Now:M/dd}] {text}";
+                Clipboard.SetText(text);
+                StickyNotesAutomation.SendTextAndClearClipboard(text, textBoxLog.Log);
             }
-
-            Clipboard.SetText($"[{DateTimeOffset.Now.ToString("M/dd")}] {output}");
-            StickyNotesAutomation.SendTextAndClearClipboard(output, msg => textBoxLog.Log(msg));
         }
 
         private void CheckAutoStart()
