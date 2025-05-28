@@ -146,7 +146,7 @@ namespace CPTodoApp
                 return;
             }
 
-            Clipboard.SetText(output);
+            Clipboard.SetText($"[{DateTimeOffset.Now.ToString("M/dd")}] {output}");
             StickyNotesAutomation.SendTextAndClearClipboard(output, msg => textBoxLog.Log(msg));
         }
 
